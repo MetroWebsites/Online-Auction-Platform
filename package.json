@@ -1,0 +1,39 @@
+{
+  "name": "auction-platform",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Production-ready online auction platform with real-time bidding, admin portal, and PWA support",
+  "scripts": {
+    "dev": "vite",
+    "dev:sandbox": "wrangler pages dev dist --d1=auction-db --local --ip 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "wrangler pages dev dist",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name auction-platform",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "clean-port": "fuser -k 3000/tcp 2>/dev/null || true",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "db:create": "wrangler d1 create auction-db",
+    "db:migrate:local": "wrangler d1 migrations apply auction-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply auction-db",
+    "db:seed": "wrangler d1 execute auction-db --local --file=./scripts/seed.sql",
+    "db:reset": "rm -rf .wrangler/state/v3/d1 && npm run db:migrate:local && npm run db:seed",
+    "db:console:local": "wrangler d1 execute auction-db --local",
+    "db:console:prod": "wrangler d1 execute auction-db",
+    "git:commit": "git add . && git commit -m",
+    "backup": "tar -czf auction-platform-backup-$(date +%Y%m%d-%H%M%S).tar.gz --exclude=node_modules --exclude=.wrangler --exclude=dist ."
+  },
+  "dependencies": {
+    "hono": "^4.11.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250705.0",
+    "@hono/vite-build": "^1.2.0",
+    "@hono/vite-dev-server": "^0.18.2",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.3",
+    "vite": "^6.3.5",
+    "vitest": "^1.0.0",
+    "wrangler": "^4.4.0"
+  }
+}

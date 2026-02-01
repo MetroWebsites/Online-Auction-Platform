@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "auction-platform",
+  "compatibility_date": "2026-02-01",
+  "pages_build_output_dir": "./dist",
+  "compatibility_flags": ["nodejs_compat"],
+  
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "auction-db",
+      "database_id": "",
+      "migrations_dir": "migrations"
+    }
+  ],
+  
+  "r2_buckets": [
+    {
+      "binding": "IMAGES",
+      "bucket_name": "auction-images"
+    }
+  ],
+  
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "",
+      "preview_id": ""
+    }
+  ],
+  
+  "vars": {
+    "ENVIRONMENT": "development",
+    "JWT_SECRET": "development-secret-change-in-production",
+    "VAPID_PUBLIC_KEY": "",
+    "VAPID_PRIVATE_KEY": ""
+  }
+}

@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+.pm2/
+pids/
+logs/
+*.log
+
+# Compiled binary addons
+build/
+dist/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# Database
+.wrangler/
+*.db
+*.sqlite
+*.sqlite3
+
+# Cloudflare
+.wrangler/
+wrangler.toml.backup
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+*.backup
+*.bak
+*.tar.gz
+*.zip
+
+# Build outputs
+*.tsbuildinfo
