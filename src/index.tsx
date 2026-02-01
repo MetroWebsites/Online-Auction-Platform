@@ -27,6 +27,7 @@ import biddingRoutes from './routes/bidding';
 import auctionRoutes from './routes/auctions';
 import lotRoutes from './routes/lots';
 import invoiceRoutes from './routes/invoices';
+import importRoutes from './routes/imports';
 
 // Initialize app
 const app = new Hono<HonoContext>();
@@ -65,9 +66,9 @@ app.route('/api/bids', biddingRoutes);
 app.route('/api/auctions', auctionRoutes);
 app.route('/api/lots', lotRoutes);
 app.route('/api/invoices', invoiceRoutes);
+app.route('/api/imports', importRoutes);
 
 // TODO: Add remaining routes
-// app.route('/api/imports', importRoutes);
 // app.route('/api/notifications', notificationRoutes);
 
 // ============================================================================
