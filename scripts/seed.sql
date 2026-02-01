@@ -158,5 +158,3 @@ INSERT OR REPLACE INTO system_settings (key, value, value_type, description, cat
 ('auction_ending_soon_hours', '24', 'number', 'Hours before close to show "ending soon" badge', 'display', unixepoch()),
 ('max_lots_per_import', '10000', 'number', 'Maximum lots allowed in single CSV import', 'import', unixepoch()),
 ('max_images_per_import', '50000', 'number', 'Maximum images allowed in single bulk upload', 'import', unixepoch());
-
-VACUUM;
