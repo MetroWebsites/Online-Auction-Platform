@@ -24,6 +24,9 @@ import { optionalAuth } from './middleware/auth';
 // Routes
 import authRoutes from './routes/auth';
 import biddingRoutes from './routes/bidding';
+import auctionRoutes from './routes/auctions';
+import lotRoutes from './routes/lots';
+import invoiceRoutes from './routes/invoices';
 
 // Initialize app
 const app = new Hono<HonoContext>();
@@ -59,12 +62,11 @@ app.use('*', optionalAuth);
 
 app.route('/api/auth', authRoutes);
 app.route('/api/bids', biddingRoutes);
+app.route('/api/auctions', auctionRoutes);
+app.route('/api/lots', lotRoutes);
+app.route('/api/invoices', invoiceRoutes);
 
 // TODO: Add remaining routes
-// app.route('/api/auctions', auctionRoutes);
-// app.route('/api/lots', lotRoutes);
-// app.route('/api/admin', adminRoutes);
-// app.route('/api/invoices', invoiceRoutes);
 // app.route('/api/imports', importRoutes);
 // app.route('/api/notifications', notificationRoutes);
 
