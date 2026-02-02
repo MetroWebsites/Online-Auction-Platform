@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import Center - Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex">
+          <div class="flex-shrink-0 flex items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">
+              <i class="fas fa-gavel mr-2"></i>
+              Auction Admin
+            </h1>
+          </div>
+          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <a href="/admin/" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              Dashboard
+            </a>
+            <a href="/admin/auctions.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              Auctions
+            </a>
+            <a href="/admin/import.html" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              Import
+            </a>
+            <a href="/admin/bidders.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              Bidders
+            </a>
+            <a href="/admin/reports.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              Reports
+            </a>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <span class="text-gray-700 mr-4" id="admin-user">Loading...</span>
+          <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Import Center</h2>
+
+    <!-- Auction Selection -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Select Auction</h3>
+      <select id="auction-select" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+        <option value="">Loading auctions...</option>
+      </select>
+    </div>
+
+    <div id="import-forms" class="space-y-6" style="display: none;">
+      <!-- CSV Lot Import -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+          <i class="fas fa-file-csv text-green-600 mr-2"></i>
+          Import Lots from CSV
+        </h3>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+          <h4 class="font-semibold text-blue-900 mb-2">CSV Format Requirements:</h4>
+          <ul class="list-disc list-inside text-blue-800 text-sm space-y-1">
+            <li>Required columns: lot_number, title, starting_bid</li>
+            <li>Optional columns: description, category, condition, location, reserve_price, buy_now_price</li>
+            <li>First row must contain column headers</li>
+            <li>UTF-8 encoding recommended</li>
+          </ul>
+        </div>
+
+        <form id="csv-import-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              CSV File
+            </label>
+            <input type="file" id="csv-file" accept=".csv" required
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+          </div>
+          
+          <button type="submit" 
+                  class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
+            <i class="fas fa-upload mr-2"></i>
+            Import Lots from CSV
+          </button>
+        </form>
+
+        <div id="import-errors"></div>
+      </div>
+
+      <!-- Bulk Image Upload -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+          <i class="fas fa-images text-blue-600 mr-2"></i>
+          Bulk Image Upload
+        </h3>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+          <h4 class="font-semibold text-blue-900 mb-2">Filename Patterns:</h4>
+          <ul class="list-disc list-inside text-blue-800 text-sm space-y-1">
+            <li><code>12-1.jpg</code>, <code>12-2.jpg</code> → Lot 12, photos 1 and 2</li>
+            <li><code>lot12-1.jpg</code>, <code>lot12-2.jpg</code> → Lot 12, photos 1 and 2</li>
+            <li><code>12_1.jpg</code>, <code>12_2.jpg</code> → Lot 12, photos 1 and 2</li>
+            <li><code>item-12-001.jpg</code> → Lot 12, photo 1</li>
+            <li>Photos are ordered by the second number in the filename</li>
+          </ul>
+        </div>
+
+        <form id="image-upload-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Image Files (JPEG, PNG, WebP)
+            </label>
+            <input type="file" id="image-files" accept="image/*" multiple required
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+            <p class="text-sm text-gray-600 mt-2">
+              <i class="fas fa-info-circle mr-1"></i>
+              Select multiple images (Ctrl/Cmd + Click)
+            </p>
+          </div>
+          
+          <button type="submit" 
+                  class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+            <i class="fas fa-upload mr-2"></i>
+            Upload Images
+          </button>
+        </form>
+
+        <div id="unmatched-images"></div>
+      </div>
+
+      <!-- Import Progress -->
+      <div id="import-progress" class="bg-white rounded-lg shadow p-6" style="display: none;">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Import Progress</h3>
+        <div class="flex items-center justify-center py-8">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          <span class="ml-4 text-gray-700">Processing...</span>
+        </div>
+      </div>
+
+      <!-- Import Summary -->
+      <div id="import-summary" class="bg-white rounded-lg shadow p-6" style="display: none;">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Import Summary</h3>
+        <div id="summary-content" class="space-y-3">
+          <!-- Summary will be displayed here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/js/admin.js"></script>
+  <script>
+    // Load auctions for selection
+    async function loadAuctionSelector() {
+      try {
+        const data = await apiCall('/auctions');
+        const select = document.getElementById('auction-select');
+        
+        if (data.data.length === 0) {
+          select.innerHTML = '<option value="">No auctions available. Create one first.</option>';
+          return;
+        }
+
+        select.innerHTML = '<option value="">Select an auction...</option>' +
+          data.data.map(auction => 
+            `<option value="${auction.id}">${auction.title} (${getStatusColor(auction.status)})</option>`
+          ).join('');
+        
+        select.addEventListener('change', (e) => {
+          const forms = document.getElementById('import-forms');
+          if (e.target.value) {
+            forms.style.display = 'block';
+          } else {
+            forms.style.display = 'none';
+          }
+        });
+      } catch (error) {
+        console.error('Error loading auctions:', error);
+      }
+    }
+
+    // CSV Import Form
+    document.getElementById('csv-import-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const auctionId = document.getElementById('auction-select').value;
+      if (!auctionId) {
+        showToast('Please select an auction', 'error');
+        return;
+      }
+      await handleCSVImport(e, auctionId);
+    });
+
+    // Image Upload Form
+    document.getElementById('image-upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const auctionId = document.getElementById('auction-select').value;
+      if (!auctionId) {
+        showToast('Please select an auction', 'error');
+        return;
+      }
+      await handleBulkImageUpload(e, auctionId);
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', async () => {
+      const isAuthenticated = await checkAuth();
+      if (isAuthenticated) {
+        loadAuctionSelector();
+      }
+    });
+  </script>
+</body>
+</html>

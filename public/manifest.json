@@ -1,0 +1,66 @@
+{
+  "name": "Auction Platform",
+  "short_name": "Auction",
+  "description": "Production-ready online auction platform with real-time bidding",
+  "start_url": "/bidder/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/img/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/static/img/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["shopping", "business"],
+  "shortcuts": [
+    {
+      "name": "Active Auctions",
+      "short_name": "Auctions",
+      "description": "View all active auctions",
+      "url": "/bidder/?page=auctions",
+      "icons": [
+        {
+          "src": "/static/img/icon-auctions.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "My Bids",
+      "short_name": "Bids",
+      "description": "View your bids",
+      "url": "/bidder/?page=my-bids",
+      "icons": [
+        {
+          "src": "/static/img/icon-bids.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}
