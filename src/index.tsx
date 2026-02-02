@@ -28,6 +28,7 @@ import auctionRoutes from './routes/auctions';
 import lotRoutes from './routes/lots';
 import invoiceRoutes from './routes/invoices';
 import importRoutes from './routes/imports';
+import pageRoutes from './routes/pages';
 
 // Initialize app
 const app = new Hono<HonoContext>();
@@ -58,11 +59,17 @@ app.use('/api/*', cors({
 app.use('*', optionalAuth);
 
 // ============================================================================
+// PUBLIC PAGES WITH SEO (Must come before other routes for proper precedence)
+// ============================================================================
+
+app.route('/', pageRoutes);
+
+// ============================================================================
 // API ROUTES
 // ============================================================================
 
 app.route('/api/auth', authRoutes);
-app.route('/api/bids', biddingRoutes);
+app.route('/api/bidding', biddingRoutes);
 app.route('/api/auctions', auctionRoutes);
 app.route('/api/lots', lotRoutes);
 app.route('/api/invoices', invoiceRoutes);
@@ -96,9 +103,9 @@ app.use('/static/*', serveStatic({ root: './public' }));
 // ============================================================================
 
 /**
- * Admin Portal Home
+ * Admin Portal Home (fallback - use static files instead)
  */
-app.get('/admin', (c) => {
+app.get('/admin/', (c) => {
   return c.html(`
 <!DOCTYPE html>
 <html lang="en">
@@ -298,9 +305,9 @@ app.get('/admin', (c) => {
 });
 
 /**
- * Public Bidder App Home
+ * Bidder App (fallback)
  */
-app.get('/', (c) => {
+app.get('/bidder/', (c) => {
   return c.html(`
 <!DOCTYPE html>
 <html lang="en">
